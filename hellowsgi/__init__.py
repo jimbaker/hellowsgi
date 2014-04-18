@@ -1,11 +1,16 @@
-from wsgiref.validate import validator
+from bottle import Bottle, MakoTemplate, route
 
-@validator
-def simple_app(environ, start_response):
-    """Simplest possible application object"""
-    status = '200 OK'
-    output = b"Hello World - let's use Fireside!\n"
-    response_headers = [('Content-type', 'text/plain')]
-    start_response(status, response_headers)
-    return [output]
+simple_app = app = Bottle()
+hello_template = MakoTemplate('<b>Hello ${name}</b>!')
+bye_template = MakoTemplate('<b>Bye ${name}</b>!')
+
+
+@app.route('/hello/<name>')
+def index(name):
+    return hello_template.render(name=name)
+
+@app.route('/bye/<name>')
+def index(name):
+    return bye_template.render(name=name)
+
 
