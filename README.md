@@ -6,7 +6,7 @@ support running Python WSGI apps in a standard Java servlet container.
 
 Start by installing Jython 2.7. Unless you're running on Windows, the most
 recent beta 4 will work for you. Get it at the [Jython website][]. You will
-want to bootstrap pip (this will be part of the Jython installer by
+want to bootstrap pip (this next step will be part of the Jython installer by
 the final release):
 
 ````bash
