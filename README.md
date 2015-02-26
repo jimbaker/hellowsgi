@@ -101,15 +101,17 @@ def index(name):
     return bye_template.render(name=name)
 ````
 
-Now that you have the pieces, pack up the war file by some
-means. Assuming everything is in the warpack directory, The jar
-command can be used for this:
+Now that you have the pieces, pack up the war file by some means. This
+next step assumes everything is in the warpack directory, with the
+appropriate layout, and uses the jar command to construct the war
+file:
 
 ````bash
 $ jar cf hellowsgi.war -C warpack .
 ````
 
-Next, [Jetty Runner][] is the easiest way to serve a war file from the
+Next we will run a container to serve up this war file. I have found
+[Jetty Runner][] to be the easiest way to serve a war file from the
 command line:
 
 ````bash
@@ -121,6 +123,115 @@ You can then try out performance with Apache Benchmark:
 ````bash
 $ ab -k -c 20 -n 50000 localhost:8080/hello/world
 ````
+
+Here are the results I'm getting:
+
+````
+$ ab -k -c 20 -n 50000 localhost:8080/hello/world
+This is ApacheBench, Version 2.3 <$Revision: 1554214 $>
+Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
+Licensed to The Apache Software Foundation, http://www.apache.org/
+
+Benchmarking localhost (be patient)
+Completed 5000 requests
+Completed 10000 requests
+Completed 15000 requests
+Completed 20000 requests
+Completed 25000 requests
+Completed 30000 requests
+Completed 35000 requests
+Completed 40000 requests
+Completed 45000 requests
+Completed 50000 requests
+Finished 50000 requests
+
+
+Server Software:        Jetty(9.1.2.v20140210)
+Server Hostname:        localhost
+Server Port:            8080
+
+Document Path:          /hello/world
+Document Length:        19 bytes
+
+Concurrency Level:      20
+Time taken for tests:   20.626 seconds
+Complete requests:      50000
+Failed requests:        0
+Keep-Alive requests:    50000
+Total transferred:      7700000 bytes
+HTML transferred:       950000 bytes
+Requests per second:    2424.18 [#/sec] (mean)
+Time per request:       8.250 [ms] (mean)
+Time per request:       0.413 [ms] (mean, across all concurrent requests)
+Transfer rate:          364.57 [Kbytes/sec] received
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        0    0   0.0      0       1
+Processing:     1    8 135.3      2    6774
+Waiting:        1    8 135.3      2    6774
+Total:          1    8 135.3      2    6774
+
+Percentage of the requests served within a certain time (ms)
+  50%      2
+  66%      3
+  75%      3
+  80%      4
+  90%     13
+  95%     27
+  98%     46
+  99%     63
+ 100%   6774 (longest request)
+````
+
+Note that the first requests will see initialization of the Jython runtime; then the requests will see JIT warmup. You can see this in a subsequent run of the ab tool:
+
+````
+Percentage of the requests served within a certain time (ms)
+  50%      1
+  66%      1
+  75%      2
+  80%      2
+  90%      2
+  95%      4
+  98%      6
+  99%      9
+ 100%    131 (longest request)
+ ````
+
+and then with a third run, the JIT really has started to see warmup:
+
+````
+Percentage of the requests served within a certain time (ms)
+  50%      1
+  66%      2
+  75%      2
+  80%      2
+  90%      2
+  95%      3
+  98%      3
+  99%      4
+ 100%     11 (longest request)
+````
+
+At some future point you might see the effects of a GC (confirmed by looking at JConsole as well). Just using the defaults in Java 7 on OS X 10.10.2, it's still quite reasonable:
+
+````
+Percentage of the requests served within a certain time (ms)
+  50%      1
+  66%      2
+  75%      2
+  80%      2
+  90%      2
+  95%      3
+  98%      4
+  99%      5
+ 100%    114 (longest request)
+````
+
+So there you go. HelloWSGI doesn't do very much, but it does
+illustrate what it takes to link a standard Python WSGI app into
+Jython in a very simple fashion.
 
 <!-- references -->
 
