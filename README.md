@@ -4,12 +4,21 @@ HelloWSGI
 The HelloWSGI sample project demonstrates how to use the Fireside to
 support running Python WSGI apps in a standard Java servlet container.
 
-First install the HelloWSGI depdendencies, [Bottle][], [Clamp][] and
+Start by installing Jython 2.7. Unless you're running on Windows, the most
+recent beta 4 will work for you. Get it at the [Jython website][]. You will
+want to bootstrap pip (this will be part of the Jython installer by
+the final release):
+
+````bash
+$ jython -m ensurepip
+````
+
+Next install the HelloWSGI depdendencies, [Bottle][], [Clamp][] and
 [Fireside][]. Next, build an über jar by running the install and
 singlejar build steps:
 
 ````bash
-$ jython-socket-reboot setup.py install singlejar
+$ jython setup.py install singlejar
 ````
 
 This setup will result in `hellowsgi-0.1-single.jar`. (The version, such
@@ -102,4 +111,4 @@ $ ab -k -c 20 -n 50000 localhost:8080/hello/world
 [Clamp]: https://github.com/jythontools/clamp
 [Fireside]: https://github.com/jythontools/fireside
 [Jetty Runner]: http://wiki.eclipse.org/Jetty/Howto/Using_Jetty_Runner
-
+[Jython website]: http://www.jython.org/
