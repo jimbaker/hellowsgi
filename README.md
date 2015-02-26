@@ -1,20 +1,37 @@
 HelloWSGI
 =========
 
-The HelloWSGI sample project demonstrates how to use the Fireside to
-support running Python WSGI apps in a standard Java servlet container.
+The HelloWSGI sample project demonstrates how to use [Fireside][] to
+support running Python WSGI apps in a standard Java servlet
+container. It uses the [Clamp][] project to produce a single jar for
+inclusion in a war file. However, in the future it should be also
+possible to support warless deployments with containers like Jetty.
 
-Start by installing Jython 2.7. Unless you're running on Windows, the most
-recent beta 4 will work for you. Get it at the [Jython website][]. You will
-want to bootstrap pip (this next step will be part of the Jython installer by
-the final release):
+Start by installing Jython 2.7. Unless you're running on Windows, the
+most recent beta 4 will work for you. Get it at the
+[Jython website][]. You will want to bootstrap pip (this next step
+will be part of the Jython installer by the final release):
 
 ````bash
 $ jython -m ensurepip
 ````
 
-Next install the HelloWSGI depdendencies, [Bottle][], [Clamp][] and
-[Fireside][]. Next, build an über jar by running the install and
+With this step, the pip command is now available in
+`$JYTHON_HOME/bin`. You may want to alias `$JYTHON_HOME/bin/pip` as
+`jpip`, or you can use [pyenv][] to manage working with CPython's pip.
+
+Next install the HelloWSGI depdendencies. Clamp and Fireside are
+essential, whereas you can use the WSGI-compliant tooling of your
+choice; I have simply chosen [Bottle][] and [Mako][] as being
+particularly simple. Using Jython's pip:
+
+````bash
+pip install bottle mako
+pip install git+https://github.com/jythontools/clamp.git
+pip install git+https://github.com/jythontools/fireside.git
+````
+
+Now you can build an über jar for HelloWSGI by running the install and
 singlejar build steps:
 
 ````bash
@@ -112,3 +129,5 @@ $ ab -k -c 20 -n 50000 localhost:8080/hello/world
 [Fireside]: https://github.com/jythontools/fireside
 [Jetty Runner]: http://wiki.eclipse.org/Jetty/Howto/Using_Jetty_Runner
 [Jython website]: http://www.jython.org/
+[Mako]: http://www.makotemplates.org/
+[pyenv]: https://github.com/yyuu/pyenv
