@@ -16,6 +16,12 @@ will be part of the Jython installer by the final release):
 $ jython -m ensurepip
 ````
 
+(Please note that Jython does not distribute the [servlet classes][]
+in the installed version of Jython. You will need to ensure this
+functionality is available during installs on your `CLASSPATH`. Of
+course when you run your clamped jar in a container like Jetty, these
+classes are available.)
+
 With this step, the pip command is now available in
 `$JYTHON_HOME/bin`. You may want to alias `$JYTHON_HOME/bin/pip` as
 `jpip`, or you can use [pyenv][] to manage working with CPython's pip.
@@ -242,3 +248,4 @@ Jython in a very simple fashion.
 [Jython website]: http://www.jython.org/
 [Mako]: http://www.makotemplates.org/
 [pyenv]: https://github.com/yyuu/pyenv
+[servlet classes]: http://docs.oracle.com/javaee/7/api/javax/servlet/package-summary.html
