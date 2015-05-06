@@ -14,12 +14,13 @@ includes running ensurepip.
 Jython does not distribute the [servlet classes][] in the installed
 version of Jython. So you will need to have a servlet API jar on your
 `CLASSPATH` so that Clamp can properly build. A good one to use is the
-one we use in Jython for building/testing: [servlet api jar][].
+one we use in Jython for building/testing: get [servlet API jar][].
 
 Now that you have installed Jython 2.7.0, the pip command is now
 available in `$JYTHON_HOME/bin`. You may want to alias
 `$JYTHON_HOME/bin/pip` as `jpip`, or you can use [pyenv][] to manage
-working with CPython's pip.
+so that you can have a Python environment that is based on Jython,
+instead of CPython.
 
 Next install the HelloWSGI depdendencies. Clamp and Fireside are
 essential, whereas you can use the WSGI-compliant tooling of your
@@ -56,7 +57,8 @@ file with the usual layout:
 Configure `web.xml` for the war file something like this, adding other
 servlets as desired, not to mention other configuration. The key piece
 is the entry point for Fireside is specified by `wsgi.handler`; simply
-point it to a callable supporting the WSGI standard.
+point it to a Python callable - function, bound method - supporting
+the WSGI standard:
 
 ````xml
 <web-app xmlns="http://java.sun.com/xml/ns/javaee"
