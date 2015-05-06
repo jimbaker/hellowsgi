@@ -7,24 +7,19 @@ container. It uses the [Clamp][] project to produce a single jar for
 inclusion in a war file. However, in the future it should be also
 possible to support warless deployments with containers like Jetty.
 
-Start by installing Jython 2.7. Unless you're running on Windows, the
-most recent beta 4 will work for you. Get it at the
-[Jython website][]. You will want to bootstrap pip (this next step
-will be part of the Jython installer by the final release):
+Start by installing Jython 2.7.0. Get it at the
+[Jython website][]. Make sure you use the standard install, which
+includes running ensurepip.
 
-````bash
-$ jython -m ensurepip
-````
+Jython does not distribute the [servlet classes][] in the installed
+version of Jython. So you will need to have a servlet API jar on your
+`CLASSPATH` so that Clamp can properly build. A good one to use is the
+one we use in Jython for building/testing: [servlet api jar][].
 
-(Please note that Jython does not distribute the [servlet classes][]
-in the installed version of Jython. You will need to ensure this
-functionality is available during installs on your `CLASSPATH`. Of
-course when you run your clamped jar in a container like Jetty, these
-classes are available.)
-
-With this step, the pip command is now available in
-`$JYTHON_HOME/bin`. You may want to alias `$JYTHON_HOME/bin/pip` as
-`jpip`, or you can use [pyenv][] to manage working with CPython's pip.
+Now that you have installed Jython 2.7.0, the pip command is now
+available in `$JYTHON_HOME/bin`. You may want to alias
+`$JYTHON_HOME/bin/pip` as `jpip`, or you can use [pyenv][] to manage
+working with CPython's pip.
 
 Next install the HelloWSGI depdendencies. Clamp and Fireside are
 essential, whereas you can use the WSGI-compliant tooling of your
@@ -248,4 +243,5 @@ Jython in a very simple fashion.
 [Jython website]: http://www.jython.org/
 [Mako]: http://www.makotemplates.org/
 [pyenv]: https://github.com/yyuu/pyenv
+[servlet api jar]: https://github.com/jythontools/jython/blob/master/extlibs/servlet-api-2.5.jar
 [servlet classes]: http://docs.oracle.com/javaee/7/api/javax/servlet/package-summary.html
